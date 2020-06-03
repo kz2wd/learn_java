@@ -86,98 +86,76 @@ public class MyBinaryTree {
         MyNode motherNode;
         motherNode = actualNode;
 
-        while (actualNode.getValue() != value) {  // will return if there is not the value wanted
+        if (isIn(value)) {
+            if (rootNode.getValue() != value) {  // if the value is in the tree and it is not the root
 
-            if (value < actualNode.getValue()) {
-                if (actualNode.getLeftNode() != null) {
-                    motherNode = actualNode;
-                    actualNode = actualNode.getLeftNode();
-                } else {
-                    actualNode = rootNode;
-                    return;
+                if (motherNode.getLeftNode() != null) {  // if there is a left child
 
-                }
-            } else {
-                if (actualNode.getRightNode() != null) {
-                    motherNode = actualNode;
-                    actualNode = actualNode.getRightNode();
-                } else {
-                    actualNode = rootNode;
-                    return;
+                    if (value == motherNode.getLeftNode().getValue()) {  // if the deleted node is on the left of the mother node
 
-                    }
-                }
-            }
-        if (rootNode.getValue() != value){  // if the value is in the tree and it is not the root
+                        if (actualNode.getLeftNode() != null) {  // if the deleted node has a left child node
+                            motherNode.setLeftNode(actualNode.getLeftNode());  // we replace the node with the value to delete by her left child
 
-            if (motherNode.getLeftNode() != null){  // if there is a left child
+                            if (actualNode.getRightNode() != null) {  // if the deleted node has also a right child node
 
-                if (value == motherNode.getLeftNode().getValue()){  // if the deleted node is on the left of the mother node
+                                // we want to append that to the 'last' right child of the deleted node
 
-                    if (actualNode.getLeftNode() != null){  // if the deleted node has a left child node
-                        motherNode.setLeftNode(actualNode.getLeftNode());  // we replace the node with the value to delete by her left child
+                                MyNode lastChild;  // we create 2 values to find this last right child
+                                MyNode previousNode;
 
-                        if (actualNode.getRightNode() != null){  // if the deleted node has also a right child node
+                                lastChild = actualNode.getLeftNode();
+                                previousNode = actualNode;
 
-                            // we want to append that to the 'last' right child of the deleted node
+                                while (lastChild != null) {
+                                    previousNode = lastChild;
+                                    lastChild = previousNode.getRightNode();
+                                }
+                                // lastChild will always be null so we use previousNode to get the previous node
 
-                            MyNode lastChild;  // we create 2 values to find this last right child
-                            MyNode previousNode;
+                                previousNode.setRightNode(actualNode.getRightNode());  // so we append the right child of the deleted node to the last right child
 
-                            lastChild = actualNode.getLeftNode();
-                            previousNode = actualNode;
-
-                            while (lastChild != null){
-                                previousNode = lastChild;
-                                lastChild = previousNode.getRightNode();
                             }
-                            // lastChild will always be null so we use previousNode to get the previous node
-
-                            previousNode.setRightNode(actualNode.getRightNode());  // so we append the right child of the deleted node to the last right child
-
+                        } else if (actualNode.getRightNode() != null) {  // if there is no left child but there is a right child
+                            motherNode.setLeftNode(actualNode.getRightNode());
                         }
                     }
-                    else if (actualNode.getRightNode() != null){  // if there is no left child but there is a right child
-                        motherNode.setLeftNode(actualNode.getRightNode());
-                    }
                 }
-            }
 
 
-            if (motherNode.getRightNode() != null){  // if there is a right child
-                // if the deleted node is on the right of the mother node
-                if (value == motherNode.getRightNode().getValue()){ // we do the same as before but on the right child of the mother node
+                if (motherNode.getRightNode() != null) {  // if there is a right child
+                    // if the deleted node is on the right of the mother node
+                    if (value == motherNode.getRightNode().getValue()) { // we do the same as before but on the right child of the mother node
 
-                    if (actualNode.getLeftNode() != null){  // if the deleted node has a left child node
-                        motherNode.setRightNode(actualNode.getLeftNode());  // we replace the node with the value to delete by her left child
+                        if (actualNode.getLeftNode() != null) {  // if the deleted node has a left child node
+                            motherNode.setRightNode(actualNode.getLeftNode());  // we replace the node with the value to delete by her left child
 
-                        if (actualNode.getRightNode() != null){  // if the deleted node has also a right child node
+                            if (actualNode.getRightNode() != null) {  // if the deleted node has also a right child node
 
-                            // we want to append that to the 'last' right child of the deleted node
+                                // we want to append that to the 'last' right child of the deleted node
 
-                            MyNode lastChild;  // we create 2 values to find this last right child
-                            MyNode previousNode;
+                                MyNode lastChild;  // we create 2 values to find this last right child
+                                MyNode previousNode;
 
-                            lastChild = actualNode.getLeftNode();
-                            previousNode = actualNode;
+                                lastChild = actualNode.getLeftNode();
+                                previousNode = actualNode;
 
-                            while (lastChild != null){
-                                previousNode = lastChild;
-                                lastChild = previousNode.getRightNode();
+                                while (lastChild != null) {
+                                    previousNode = lastChild;
+                                    lastChild = previousNode.getRightNode();
+                                }
+                                // lastChild will always be null so we use previousNode to get the previous node
+
+                                previousNode.setRightNode(actualNode.getRightNode());  // so we append the right child of the deleted node to the last right child
+
                             }
-                            // lastChild will always be null so we use previousNode to get the previous node
-
-                            previousNode.setRightNode(actualNode.getRightNode());  // so we append the right child of the deleted node to the last right child
-
-                        }
-                    }
-                    else if (actualNode.getRightNode() != null){  // if there is no left child but there is a right child
-                        motherNode.setRightNode(actualNode.getRightNode());
+                        } else if (actualNode.getRightNode() != null) {  // if there is no left child but there is a right child
+                            motherNode.setRightNode(actualNode.getRightNode());
                         }
                     }
                 }
             }
-        actualNode = rootNode;
+            actualNode = rootNode;
+        }
     }
 
 
